@@ -36,17 +36,21 @@ jobs:
           docker push ghcr.io/${{ github.repository }}:${{ env.DATE }}
 
       - name: Create Release
-        uses: actions/create-release@v1
+        id: create_release
+        uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ env.DATE }}
-          release_name: Docker Image Release ${{ env.DATE }}
+          tag_name: v${{ env.DATE }}
+          name: Release ${{ env.DATE }}
           draft: false
           prerelease: false
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload Docker Image to Release
+      - name: Upload Docker image to release
         uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./path/to/your/docker/image
-          asset_name: docker-image-${{ env.DATE }}.tar
-          asset_content_type: application/x-tar
+          upload_url: ${{ steps.create-release.outputs.upload_url }}
+          asset_path: ghcr.io/${{ github.repository_owner }}/alpine-x-ui:${{ env.DATE }}
+          asset_name: "alpine-x-ui-docker-image-${{ env.DATE }}.tar"
+          asset_content_type: application/octet-stream
