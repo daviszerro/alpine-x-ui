@@ -44,8 +44,9 @@ jobs:
           prerelease: false
           token: ${{ secrets.GITHUB_TOKEN }}
           
-      - name: Save Docker image
+      - name: Pull and save Docker image
         run: |
+          docker pull ghcr.io/daviszerro/alpine-x-ui:${{ env.DATE }}
           docker save ghcr.io/daviszerro/alpine-x-ui:${{ env.DATE }} > alpine-x-ui-${{ env.DATE }}.tar
           
       - name: Upload Release Asset
