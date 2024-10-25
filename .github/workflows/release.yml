@@ -49,7 +49,7 @@ jobs:
           docker save ghcr.io/daviszerro/alpine-x-ui:${{ env.DATE }} > alpine-x-ui-${{ env.DATE }}.tar
           
       - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
+        uses: actions/upload-release-asset@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
